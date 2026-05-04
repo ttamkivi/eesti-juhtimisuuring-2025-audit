@@ -1,0 +1,133 @@
+{
+  "_source": "Eesti Juhtimisvaldkonna Uuringu 2026 raport (EIS), Lisa 7: Juhtimisvaldkonna uuringute võrdlusandmed aastate kaupa, lk 126-130. PDF: https://eis.ee/wp-content/uploads/2026/04/juhtimisvaldkonna_uuringu_lopparuanne_13-03-26.pdf",
+  "_extracted_by": "Taavi Tamkivi via PDF.js, mai 2026",
+
+  "plans_existence_pct": {
+    "_note": "Vastajate osakaal (%), kellel on vastav plaan olemas",
+    "Strateegiline (pikaajaline) tegevuskava": {"2025": 91, "2021": 92},
+    "Ekspordiplaan ja rahvusvahelistumine": {"2025": 38, "2021": 33, "2015": 37},
+    "Finantsplaan": {"2025": 88, "2021": 88, "2015": 86},
+    "Investeeringute kava": {"2025": 81, "2021": 83, "2015": 73},
+    "Müügi- ja turundusplaan": {"2025": 77, "2021": 74},
+    "Toodete-teenuste arendusplaan": {"2025": 81, "2021": 74, "2015": 72},
+    "Tööjõuplaan": {"2025": 74, "2021": 77, "2015": 62}
+  },
+
+  "external_factors_pct_significant": {
+    "_note": "Ettevõtete osakaal (%), keda välistegur mõjutab oluliselt või mõnevõrra",
+    "Tööjõupuudus Eestis": {"2025": 82, "2021": 73},
+    "Eesti rahvastiku vananemine": {"2025": 67, "2021": 31},
+    "Eesti sisserände- ja tööjõupoliitika": {"2025": 44},
+    "Eesti majandus- ja maksukeskkonna muutumine": {"2025": 97, "2021_econ": 61, "2021_tax": 38},
+    "Muutused töötajate ootustes": {"2025": 89, "2021": 52},
+    "Euroopa Liidu regulatsioonide muutumine": {"2025": 84},
+    "Automatiseerimine": {"2025": 75, "2021": 36},
+    "Kliimamuutused ja rohepööre": {"2025": 64, "2021": 30},
+    "Energiaturgude hinnataseme tõus": {"2025": 81},
+    "Sõjaohu kasv lähiregioonis": {"2025": 83},
+    "Küberjulgeoleku risk": {"2025": 78, "2021": 18},
+    "Epideemiad ja pandeemiad (vaid 2021)": {"2021": 66}
+  },
+
+  "management_methods_pct_using_or_planning": {
+    "_note": "Ettevõtete osakaal (%), kes on kasutanud või plaanivad kasutada juhtimismeetodeid. NB: see EI ole sama, mis 'praegu kasutame' — see on laiem mõõdik.",
+    "Terviklik kvaliteedijuhtimine (TQM)": {"2025": 15, "2021": 21, "2015": 43, "2010": 56},
+    "Äriprotsesside ümberkorraldus (BPR)": {"2025": 8, "2021": 15, "2015": 43, "2010": 64},
+    "Võrdlus parimaga (Benchmarking)": {"2025": 29, "2021": 26, "2015": 49, "2010": 54},
+    "Tarneahela juhtimine (SCM)": {"2025": 17, "2021": 16, "2015": 21, "2010": 25},
+    "Lean-juhtimine": {"2025": 17},
+    "Tasakaalus tulemuskaart (BSC)": {"2025": 11, "2021": 12, "2015": 19, "2010": 42},
+    "Andmepõhine juhtimine (KPI/OKR)": {"2025": 35},
+    "Tehisaru toel otsustamine (AI)": {"2025": 14},
+    "Suurandmete analüüs (vaid 2021)": {"2021": 24},
+    "Õppiv organisatsioon": {"2025": 25, "2021": 23, "2015": 45, "2010": 50},
+    "Isejuhtivad meeskonnad": {"2025": 21, "2021": 22, "2015": 38, "2010": 38},
+    "Väärtuspõhine juhtimine": {"2025": 35, "2021": 35, "2015": 44, "2010": 48},
+    "Coaching ja mentorlus": {"2025": 32, "2021_coach": 20, "2015": 29},
+    "Kliendisuhete juhtimine (CRM)": {"2025": 33, "2021": 30, "2015": 42, "2010": 52},
+    "Klienditeekonna analüüs (CX)": {"2025": 23, "2021": 26},
+    "Disainmõtlemine": {"2025": 19},
+    "Agiilne juhtimine (Scrum jt)": {"2025": 15, "2021": 9},
+    "Innovatsioonijuhtimine": {"2025": 16},
+    "Jätkusuutlik juhtimine (ESG)": {"2025": 26, "2021": 17}
+  },
+
+  "employee_motivation_factors_avg_5pt": {
+    "_note": "Tegurite olulisus töötajate tööhuvi säilitamisel ja tõstmisel; 5-pall sel skaala l (5 = väga oluline)",
+    "Konkurentsivõimeline töötasu": {"2025": 3.73, "2021": 4.47, "2015": 4.27, "2010": 4.14},
+    "Mitterahalised soodustused": {"2025": 1.99, "2021": 3.50, "2015": 2.88, "2010": 3.07},
+    "Sõbralik ja ühtehoidev kollektiiv": {"2025": 4.73, "2021": 4.65, "2015": 4.51, "2010": 4.18},
+    "Huvitav ja vaheldusrikas töö": {"2025": 4.22, "2021": 3.93, "2015": 3.94, "2010": 3.95},
+    "Karjäärivõimalused": {"2025": 3.34, "2021": 3.07, "2015": 3.08, "2010": 3.39},
+    "Arenguvõimalused": {"2025": 3.66, "2021": 3.56, "2015": 3.37, "2010": 3.46},
+    "Arendav-toetav juhtimiskultuur": {"2025": 4.37, "2021": 4.12, "2015": 2.71},
+    "Ettevõtte hea maine": {"2025": 4.59, "2021": 4.31, "2015": 4.07, "2010": 4.16},
+    "Sotsiaalne aktiivsus": {"2025": 3.41, "2021": 2.87, "2015": 2.48, "2010": 2.65},
+    "Töötajate väärtuste sobivus": {"2025": 4.29, "2021": 4.04, "2015": 3.70, "2010": 3.75}
+  },
+
+  "development_focus_avg_5pt": {
+    "_note": "Arendamise valdkondade prioriteet, 5-pall ne skaala (5 = kõige olulisem)",
+    "Põhitegevus": {"2025": 4.45, "2021": 2.74, "2015": 2.69, "2010": 2.63},
+    "Strateegiline juhtimine": {"2025": 3.04, "2021": 2.22, "2015": 2.05, "2010": 2.12},
+    "Personalijuhtimine": {"2025": 2.97, "2021": 2.02, "2015": 1.86, "2010": 1.81},
+    "Finantsjuhtimine": {"2025": 3.27, "2021": 2.11, "2015": 1.94, "2010": 2.05},
+    "Toote-/teenusearendus": {"2025": 3.54, "2021": 2.17, "2015": 1.94, "2010": 1.94},
+    "Müük ja turundus": {"2025": 3.66, "2021": 2.24, "2015": 2.27, "2010": 2.32},
+    "Eksport ja rahvusvahelistumine": {"2025": 2.33, "2021": 1.84, "2015": 1.48, "2010": 1.42},
+    "IKT ja digitehnoloogiad": {"2025": 3.04, "2021": 1.96},
+    "Organisatsioonikultuur": {"2025": 3.48, "2021": 2.32, "2015": 2.08, "2010": 1.79},
+    "Avalikussuhted": {"2025": 2.56, "2021": 1.84, "2015": 1.48, "2010": 1.42}
+  },
+
+  "process_documentation_pct": {
+    "_note": "Protsesside ja tegevuste kirjeldatus ettevõtetes (%)",
+    "Põhitegevus": {"2025": 90, "2021": 96},
+    "Müük ja turundus": {"2025": 68, "2021": 68},
+    "Sisekommunikatsioon": {"2025": 67, "2021": 65},
+    "Suhtlus huvigruppidega": {"2025": 65, "2021": 76},
+    "Toodete sisseostmine": {"2025": 68, "2021": 64},
+    "Toote-/teenusearendus": {"2025": 61, "2021": 61},
+    "Personalipoliitika": {"2025": 63, "2021": 74},
+    "Töö tasustamise põhimõtted": {"2025": 88, "2021": 89},
+    "Vastutustundlik ettevõtlus": {"2025": 65, "2021": 75},
+    "Tehisaru rakendamine": {"2025": 18}
+  },
+
+  "strategy_participants_avg_5pt": {
+    "_note": "Strateegilise kava koostamisse kaasatud osapooled, 5-palli sel skaala l (5 = kaasatakse suurel määral)",
+    "Omanikud": {"2025": 4.08, "2021": 4.44, "2015": 4.48, "2010": 4.47},
+    "Tippjuhid": {"2025": 3.93, "2021": 4.75, "2015": 4.54, "2010": 4.70},
+    "Keskjuhid": {"2025": 3.37, "2021": 4.03, "2015": 2.29, "2010": 3.58},
+    "Esmatasandi juhid": {"2025": 2.87, "2021": 3.26, "2015": 1.95, "2010": 2.59},
+    "Spetsialistid": {"2025": 3.16, "2021": 3.47, "2015": 2.24, "2010": 2.71},
+    "Esmatasandi töötajad": {"2025": 2.87, "2021": 2.71, "2015": 1.78, "2010": 1.83},
+    "Välised konsultandid": {"2025": 2.06, "2021": 2.46, "2015": 1.88, "2010": 2.37}
+  },
+
+  "official_definitions": {
+    "Edukas (lisandväärtuse tertsiil)": "Erasektori ettevõtete keskmine lisandväärtus töötaja kohta perioodil 2022-2024. Koguvalim jaotatud tertsiilideks (kõrge / keskmine / madal). Lisandväärtus = kasum + tööjõukulud + kulum (äriregistri andmetel). NB: see on TULEMUSE mõõdik, mitte juhtimisalane.",
+    "Sektor": "Primaarsektor (põllumajandus, kaevandamine), sekundaarsektor (tootmine, tööstus), tertsiaarsektor (kaubandus, teenused, logistika), kvaternaarsektor (teadmismahukad teenused: IT, finants).",
+    "Suurus": "Mikro (<10), väike (11-50), keskmine (51-250), suur (>250). Vähemalt 5 töötajaga.",
+    "Regioon": "Tallinn ja Harjumaa, Tartu ja Tartumaa, Ida-Virumaa, muu Eesti."
+  },
+
+  "study_methodology_2026": {
+    "ankeetküsitlus_juhid": 436,
+    "fookusgrupi_intervjuud": 40,
+    "sihtuuring_juhtimiskompetentsid": 247,
+    "innovaatilise_kaasusanalüüsid": 3,
+    "strateegia_rakendamise_intervjuud": 18,
+    "võrreldud_riigid": ["Rootsi", "Soome", "Saksamaa", "Ühendkuningriik"],
+    "ehis_andmed_analüüsiks": "juhtimishariduse ülevaade",
+    "majandustulemused_seotud": "äriregistri andmed (kasum, tööjõukulud, kulum 2022-2024)"
+  },
+
+  "_critical_observations": {
+    "edukas_definition_implications": "Kuna 'Edukas' on lisandväärtus töötaja kohta, siis IT ja finantssektor (kvaternaar) on definitsiooniliselt 'edukamad' kui tootmine ja teenindus. See ei mõõda juhtimiskvaliteeti, vaid sektorivalikut.",
+    "method_decline": "Klassikalised juhtimismeetodid (TQM, BPR, BSC) on dramaatiliselt langenud 2010-2025: TQM 56→15%, BPR 64→8%, BSC 42→11%. See ei tähenda, et neid enam ei kasutata — paljud on lihtsalt nimetatud teisiti või integreeritud.",
+    "external_pressure_jumps": "Mitmed välistegurid on aastatel 2021→2025 dramaatiliselt kasvanud: küberjulgeolek 18→78%, automatiseerimine 36→75%, kliimamuutused 30→64%, töötajate ootused 52→89%. See võib peegeldada nii tegelikku trendi kui ka küsimuse sõnastuse muutusi.",
+    "salary_paradox": "Konkurentsivõimeline töötasu on motivatsioonitegurina LANGENUD: 4.47 (2021) → 3.73 (2025). Samas 'arendav-toetav juhtimiskultuur' on tõusnud 2.71 (2015) → 4.37 (2025). See on huvitav nihke vinge tõestus.",
+    "professionalism_claim": "EIS raport väidab, et juhtimine on 'professionaliseerunud'. Andmed: arengufookus on tõusnud KÕIKIDES valdkondades 2021→2025 — keskmiselt umbes 1 punkti võrra 5-palli sel skaala l. Kas see on tegelikult professionaliseerumise tõestus või küsimuste/skaalade muutus?"
+  }
+}

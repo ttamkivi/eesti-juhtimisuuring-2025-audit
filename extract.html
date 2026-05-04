@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Eesti Juhtimisuuring 2025 — Power BI Data Extractor</title>
+<style>
+  body { font-family: -apple-system, system-ui, sans-serif; max-width: 760px; margin: 40px auto; padding: 0 20px; color: #222; }
+  h1 { margin-bottom: 4px; }
+  .sub { color: #666; margin-top: 0; font-size: 14px; }
+  button { background: #0a66c2; color: white; border: 0; padding: 10px 18px; border-radius: 4px; font-size: 15px; cursor: pointer; }
+  button:disabled { background: #999; cursor: wait; }
+  pre { background: #f4f4f4; padding: 12px; border-radius: 4px; max-height: 320px; overflow: auto; font-size: 12px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 12px; }
+  td, th { border-bottom: 1px solid #eee; padding: 6px 8px; text-align: left; font-size: 13px; }
+  th { background: #fafafa; }
+  .ok { color: #1a7f37; }
+  .warn { color: #b54708; }
+  .err { color: #c62828; }
+  .meta { font-size: 12px; color: #888; margin-top: 24px; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<h1>Eesti Juhtimisuuring 2025 — Data Extractor</h1>
+<p class="sub">Pulls the seven tables backing the public Power BI dashboard and saves each as CSV to your Downloads folder. Read-only. No auth needed — the dashboard exposes its dataset via an unauthenticated endpoint (which is the point of this audit).</p>
+
+<p><button id="run">Extract all tables (single ZIP download)</button></p>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<div id="status"></div>
+<table id="results" hidden>
+  <thead><tr><th>Table</th><th>Rows</th><th>File</th><th>Status</th></tr></thead>
+  <tbody></tbody>
+</table>
+
+<pre id="log"></pre>
+
+<p class="meta">
+Source: <a href="https://app.powerbi.com/view?r=eyJrIjoiMzM0MTE5OGUtZjIwZC00NjQxLTgyMTItMjZjYmNlMTNlZThiIiwidCI6ImZiZmFiM2UwLTljNjUtNDFhZi05OWMwLTZmZmI5NTBmZDgzZCIsImMiOjl9" target="_blank">Public Power BI report</a><br>
+Endpoint: <code>wabi-west-europe-e-primary-api.analysis.windows.net</code><br>
+Resource key: <code>3341198e-f20d-4641-8212-26cbce13ee8b</code> (in URL — no auth)<br>
+Model ID: <code>7929961</code> · Dataset ID: <code>a5a1f49f-f411-4dcd-8d3e-376b10f78ae7</code>
+</p>
+
+<script>
+const RESOURCE_KEY = "3341198e-f20d-4641-8212-26cbce13ee8b";
+const MODEL_ID = 7929961;
+const DATASET_ID = "a5a1f49f-f411-4dcd-8d3e-376b10f78ae7";
+const REPORT_ID = "c317dc64-1577-4074-98d1-45475db24a90";
+const API = "https://wabi-west-europe-e-primary-api.analysis.windows.net/public/reports/querydata?synchronous=true";
+
+const TABLES = {
+  DimRespondent:        ["Vastuse ID","Edukas","Piirkond","Liik","Sektor","Töötajaid","Edukas_tase","Edukas_tase_sort2","Sektor_Sort","Piirkond_Sort","Tootajaid_Sort"],
+  DimQuestion:          ["QuestionLabel","QuestionID","QuestionKey","ScaleCode","PanelLabel"],
+  DimScale:             ["ScaleCode","AnswerCode","NumericValue","Hinnang","IsNumeric","AnswerKey","AnswerGroup","AnswerOrder"],
+  DimOption_Base:       ["QuestionID","OptionLabel","Variant","OptionKey"],
+  FactFinance:          ["Vastuse ID","Year","Metric","Amount","HasAmount"],
+  FactSurvey:           ["Vastuse ID","QuestionID","QuestionLabel","OptionLabel","Answer_Raw","ScaleCode","AnswerKey","SelectedFlag","HasScale"],
+  FactSurvey_PreOption: ["Vastuse ID","QuestionID","QuestionLabel","OptionLabel","Answer_Raw","QuestionText_Raw"],
+};
+
+// FactSurvey + FactSurvey_PreOption need pagination by QuestionID
+const PAGINATED = new Set(["FactSurvey","FactSurvey_PreOption"]);
+const QID_RANGE = Array.from({length: 30}, (_, i) => i + 1);
+
+function buildBody(entity, props, where = []) {
+  const selects = props.map(p => ({
+    Column: { Expression: { SourceRef: { Source: "t" } }, Property: p },
+    Name: `${entity}.${p}`
+  }));
+  const query = {
+    Version: 2,
+    From: [{ Name: "t", Entity: entity, Type: 0 }],
+    Select: selects,
+  };
+  if (where.length) query.Where = where;
+  return {
+    version: "1.0.0",
+    queries: [{
+      Query: { Commands: [{ SemanticQueryDataShapeCommand: {
+        Query: query,
+        Binding: {
+          Primary: { Groupings: [{ Projections: selects.map((_, i) => i) }] },
+          DataReduction: { DataVolume: 4, Primary: { Window: { Count: 30000 } } },
+          IncludeEmptyGroups: false, Version: 1,
+        },
+      }}]},
+      QueryId: "",
+      ApplicationContext: { DatasetId: DATASET_ID, Sources: [{ ReportId: REPORT_ID, VisualId: "extract" }] }
+    }],
+    cancelQueries: [],
+    modelId: MODEL_ID,
+  };
+}
+
+function whereQid(qid) {
+  return [{ Condition: { In: {
+    Expressions: [{ Column: { Expression: { SourceRef: { Source: "t" } }, Property: "QuestionID" } }],
+    Values: [[{ Literal: { Value: `${qid}L` } }]]
+  } } }];
+}
+
+async function pbiQuery(entity, props, where = []) {
+  const r = await fetch(API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json;charset=UTF-8", "X-PowerBI-ResourceKey": RESOURCE_KEY },
+    body: JSON.stringify(buildBody(entity, props, where)),
+  });
+  const json = await r.json();
+  const data = json.results[0].result.data;
+  if (data.dsr && data.dsr.DataShapes && data.dsr.DataShapes[0]?.["odata.error"]) {
+    throw new Error(data.dsr.DataShapes[0]["odata.error"].message?.value || "unknown error");
+  }
+  const ds = data.dsr.DS[0];
+  const ph = ds.PH[0];
+  if (!ph) return [];
+  const dmKey = Object.keys(ph)[0];
+  const rowsRaw = ph[dmKey];
+  const valueDicts = ds.ValueDicts || {};
+  const S = rowsRaw[0]?.S || [];
+  const colDictName = S.map(s => s.DN || null);
+  const N = props.length;
+  const rows = [];
+  let last = new Array(N).fill(null);
+  for (const row of rowsRaw) {
+    const R = row.R || 0;
+    const NULLM = row["Ø"] || 0;
+    const C = row.C || [];
+    let ci = 0;
+    for (let i = 0; i < N; i++) {
+      const bit = 1 << i;
+      if (NULLM & bit) last[i] = null;
+      else if (R & bit) {} // keep last
+      else {
+        let v = C[ci++];
+        const dn = colDictName[i];
+        if (dn && typeof v === "number" && valueDicts[dn]) v = valueDicts[dn][v];
+        last[i] = v;
+      }
+    }
+    rows.push(last.slice());
+  }
+  return rows;
+}
+
+function toCSV(headers, rows) {
+  const esc = v => {
+    if (v === null || v === undefined) return "";
+    const s = String(v);
+    if (/[",\n\r]/.test(s)) return '"' + s.replace(/"/g, '""') + '"';
+    return s;
+  };
+  return [headers.map(esc).join(","), ...rows.map(r => r.map(esc).join(","))].join("\n");
+}
+
+function downloadCSV(filename, csv) {
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = filename; a.style.display = "none";
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 1500);
+}
+
+const log = (msg, cls="") => {
+  const el = document.getElementById("log");
+  el.innerHTML += `<span class="${cls}">${msg}</span>\n`;
+  el.scrollTop = el.scrollHeight;
+};
+
+document.getElementById("run").addEventListener("click", async () => {
+  const btn = document.getElementById("run");
+  btn.disabled = true;
+  btn.textContent = "Extracting...";
+  document.getElementById("results").hidden = false;
+  const tbody = document.querySelector("#results tbody");
+  tbody.innerHTML = "";
+
+  const zip = new JSZip();
+  let totalBytes = 0;
+
+  for (const [name, props] of Object.entries(TABLES)) {
+    const tr = tbody.insertRow();
+    tr.insertCell().textContent = name;
+    const rowsCell = tr.insertCell();
+    const fileCell = tr.insertCell();
+    const statusCell = tr.insertCell();
+    statusCell.textContent = "...";
+    rowsCell.textContent = "—";
+    fileCell.textContent = "—";
+
+    try {
+      let allRows = [];
+      if (PAGINATED.has(name)) {
+        log(`${name}: paginating by QuestionID...`);
+        for (const qid of QID_RANGE) {
+          const rows = await pbiQuery(name, props, whereQid(qid));
+          if (rows.length === 30000) log(`  ⚠ QID ${qid}: hit 30k cap`, "warn");
+          allRows = allRows.concat(rows);
+          rowsCell.textContent = allRows.length.toLocaleString();
+        }
+      } else {
+        log(`${name}: single query...`);
+        allRows = await pbiQuery(name, props);
+        rowsCell.textContent = allRows.length.toLocaleString();
+      }
+      const csv = toCSV(props, allRows);
+      const filename = `${name}.csv`;
+      zip.file(filename, csv);
+      totalBytes += csv.length;
+      fileCell.textContent = filename;
+      statusCell.innerHTML = `<span class="ok">✓ ${(csv.length/1024).toFixed(1)} KB</span>`;
+      log(`  ✓ ${name}: ${allRows.length.toLocaleString()} rows, ${(csv.length/1024).toFixed(1)} KB`, "ok");
+    } catch (e) {
+      statusCell.innerHTML = `<span class="err">✗ ${e.message}</span>`;
+      log(`  ✗ ${name}: ${e.message}`, "err");
+    }
+  }
+
+  log(`\nBuilding ZIP (${(totalBytes/1024/1024).toFixed(1)} MB raw)...`);
+  const blob = await zip.generateAsync({ type: "blob", compression: "DEFLATE", compressionOptions: { level: 6 } });
+  log(`ZIP built: ${(blob.size/1024/1024).toFixed(1)} MB. Triggering download...`, "ok");
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url; a.download = "powerbi_extract_" + new Date().toISOString().slice(0,10) + ".zip";
+  document.body.appendChild(a); a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 2000);
+
+  btn.disabled = false;
+  btn.textContent = "Extract again";
+  log("\nDone. Single ZIP saved to your Downloads folder.", "ok");
+});
+</script>
+
+</body>
+</html>

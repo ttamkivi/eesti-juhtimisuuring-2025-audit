@@ -1,0 +1,6 @@
+# Raw andmed mitte commitida — vt README eetilist märkust
+raw/
+*.zip
+.DS_Store
+__pycache__/
+*.pyc
