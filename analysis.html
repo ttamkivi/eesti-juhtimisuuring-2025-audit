@@ -383,7 +383,61 @@ Samas omanike osakaal on LANGENUD: 4.47 (2010) → 4.08 (2025), tippjuhtide oma 
 <li>2026 raport ei tee seda testi avalikult, kuigi vastaja-tasemel andmestik selle võimaldaks. Selle analüüsi sektori-kontrolliga versioon oleks Eesti majanduspoliitika jaoks oluliselt väärtuslikum kui praegune agregeeritud edetabel.</li>
 </ul>
 
-<p><strong>Aus märkus:</strong> ma võin eksida. Võib-olla on tõesti nii, et juhtimispraktikate kvaliteet ennustab edukust sektorist sõltumatult, ja sektori-efekt on väiksem kui ma eeldan. Aga see oleks empiiriliselt testitav väide, mitte deklaratiivne. Kuni seda kontrollitud kujul pole avaldatud, jään oma seisukoha juurde, et 2026 raporti narratiiv on metoodikalt hapram kui esitletud.</p>
+<p><strong>Empiiriline test (mai 2026):</strong> rekonstrueerisin lisandväärtuse per töötaja FactFinance andmestikust 334 erasektori vastaja kohta (Tööjõukulud + Puhaskasum, 3 aasta keskmine 2022-2024, jagatud töötajate kategooria midpoint-iga). Tertsiilsin populatsiooni korrektsesse 33/33/33 jaotusse ja võrdlesin sektori- ja juhtimispraktika-efekti. Tulemused all.</p>
+
+<div style="background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:18px;margin:14px 0;font-size:13px">
+<p style="margin:0 0 10px 0"><strong>Lisandväärtus per töötaja median sektorite kaupa (EUR/aasta, 2022-2024):</strong></p>
+<table style="margin-bottom:14px">
+<thead><tr><th>Sektor</th><th>n</th><th class="num">median</th><th class="num">mean</th><th class="num">vs Sekundaar</th></tr></thead>
+<tbody>
+<tr><td><strong>Kvaternaar (IT, finants)</strong></td><td>71</td><td class="num"><strong>35 014</strong></td><td class="num">43 532</td><td class="num"><strong>1.43x</strong></td></tr>
+<tr><td>Sekundaar (tootmine)</td><td>102</td><td class="num">24 440</td><td class="num">29 132</td><td class="num">1.00x</td></tr>
+<tr><td>Tertsiaar (kaubandus, teenused)</td><td>147</td><td class="num">20 167</td><td class="num">30 365</td><td class="num">0.83x</td></tr>
+<tr><td>Primaar (põllumajandus)</td><td>14</td><td class="num">21 832</td><td class="num">36 221</td><td class="num">0.89x</td></tr>
+</tbody>
+</table>
+
+<p style="margin:0 0 10px 0"><strong>Sektor × KORREKTNE 33/33/33 tertsiil (mitte 56/27/17 nagu Power BI dashboard näitas):</strong></p>
+<table style="margin-bottom:14px">
+<thead><tr><th>Sektor</th><th class="num">n</th><th class="num">kõrge tertsiil</th><th class="num">keskmine</th><th class="num">madal</th></tr></thead>
+<tbody>
+<tr><td><strong>Kvaternaar</strong></td><td class="num">71</td><td class="num good"><strong>49%</strong></td><td class="num">37%</td><td class="num">14%</td></tr>
+<tr><td>Tertsiaar</td><td class="num">147</td><td class="num">29%</td><td class="num">27%</td><td class="num bad">44%</td></tr>
+<tr><td>Sekundaar</td><td class="num">102</td><td class="num">27%</td><td class="num">41%</td><td class="num">31%</td></tr>
+<tr><td>Baseline (juhuslik 33/33/33)</td><td class="num"></td><td class="num">33%</td><td class="num">33%</td><td class="num">33%</td></tr>
+</tbody>
+</table>
+<p style="margin:0;font-size:12px;color:var(--muted)">P(kõrge | Kvaternaar) = <strong>1.68x</strong> baseline. P(kõrge | Sekundaar) = 0.76x baseline.</p>
+</div>
+
+<div style="background:#fff;border:1px solid #e5e7eb;border-radius:6px;padding:18px;margin:14px 0;font-size:13px">
+<p style="margin:0 0 10px 0"><strong>Juhtimispraktikate efekt SAMA SEKTORI sees (within-sector delta, mgt-skoor = mitu moodsat meetodit "Kasutame"):</strong></p>
+<table style="margin-bottom:10px">
+<thead><tr><th>Sektor</th><th class="num">kõrge tertsiil mgt-skoor</th><th class="num">madal tertsiil mgt-skoor</th><th class="num">within-delta</th></tr></thead>
+<tbody>
+<tr><td><strong>Kvaternaar</strong></td><td class="num">2.11 (n=35)</td><td class="num">2.30 (n=10)</td><td class="num bad"><strong>−0.19</strong></td></tr>
+<tr><td>Tertsiaar</td><td class="num">1.30 (n=43)</td><td class="num">0.66 (n=64)</td><td class="num">+0.65</td></tr>
+<tr><td>Sekundaar</td><td class="num">1.07 (n=28)</td><td class="num">0.91 (n=32)</td><td class="num">+0.17</td></tr>
+</tbody>
+</table>
+<p style="margin:0;font-size:12px"><strong>Kõige tähelepanuväärsem:</strong> Kvaternaaris (kus on majandusliku võimenduse jaoks suurim kihl) on within-sector delta NEGATIIVNE. Kõrge VA firmad ei kasuta moodsaid juhtimismeetodeid rohkem kui madala VA firmad sama sektori sees. Madala VA Kvaternaaris on n=10, statistiliselt napilt eristatav nullist, aga signaal kindlasti ei ole "rohkem moodsaid praktikaid → kõrgem VA". Tertsiaaris ja Sekundaaris on within-sector signaal positiivne aga väike.</p>
+</div>
+
+<div style="background:#fef3c7;border:1px dashed #f59e0b;border-radius:6px;padding:18px;margin:14px 0;font-size:13px">
+<p style="margin:0 0 10px 0"><strong>Variance decomposition (kõige otsesem test):</strong></p>
+<ul style="margin:0">
+<li><strong>η² (sektor seletab)</strong> = 4.1% lisandväärtuse variatsioonist</li>
+<li><strong>R² (mgt-skoor seletab)</strong> = 2.3% lisandväärtuse variatsioonist</li>
+<li><strong>Pearson r (mgt-skoor, lisandväärtus)</strong> = +0.15 (väike positiivne korrelatsioon)</li>
+<li><strong>Cross-sector mgt-delta (Kvaternaar - Sekundaar)</strong> = +0.61</li>
+<li><strong>Within-sector mgt-delta keskmine</strong> = +0.20</li>
+</ul>
+<p style="margin:10px 0 0 0"><strong>Tõlgendus:</strong> sektor seletab umbes 2x rohkem lisandväärtuse variatsioonist kui juhtimispraktikate skoor. Cross-sector mgt-skoori erinevus on 3x suurem kui within-sector erinevus. Mõlemad efektid on absoluutarvudes väikesed (kombineeritult &lt;10%, suur osa variatsioonist on muudest faktoritest), aga relatsioonis sektor on selgelt tugevam driver.</p>
+</div>
+
+<p><strong>Mida see konkreetselt EIS-i fookuse jaoks tähendab:</strong> mõõdetav majanduspoliitiline võimendus tuleb sektori-mixi muutusest oluliselt kiiremini kui horisontaalsest juhtimiskoolitusest. Üks tüüpiline finantssektori firma toodab töötaja kohta ~1.43x lisandväärtust võrreldes tüüpilise tootmisfirmaga, sõltumata sellest, kui hästi viimane on koolitatud Lean või OKR meetodites. Selle erinevuse põhjus on sektori struktuurne (kapital, skaleerimine, hinnastamise jõud), mitte juhtimisalane. Hästi juhitud kohvik jääb endiselt ~20k EUR/töötaja juurde, halvasti juhitud finantsfirma jätkab 40k+ EUR/töötaja juures. EIS-i investeering teadmismahukate teenuste kasvatamisse, IKT-mahukasse rahvusvahelistumise toetamisse ja kapitali ligi pääsuks programmidesse võib anda mõõdetavalt rohkem mõju kui sama eelarve juhtimiskoolitusele.</p>
+
+<p><strong>Empiirilise testi reproduceeritavus:</strong> kogu metoodika ja arvutused on avalikus GitHub repos failis <code>sector_vs_mgmt_v2.py</code>. Kontrolli vastu mu numbreid kui pead. <a href="https://github.com/ttamkivi/eesti-juhtimisuuring-2025-audit" target="_blank">github.com/ttamkivi/eesti-juhtimisuuring-2025-audit</a></p>
 </div>
 </div>
 
@@ -440,7 +494,7 @@ Ainsad meetodid, kus avalik sektor on KÕRGEM kui erasektor: Väärtuspõhine ju
 <div class="synthesis">
 <h2>10 mustrit, mida andmed räägivad</h2>
 <ul>
-<li><strong>1. Edukus on sektori, mitte juhtimispraktika funktsioon.</strong> Korrelatsioon kõrge lisandväärtuse ja heade juhtimispraktikate vahel ei ole kausaalsus. Tegelik driver on sektor (kvaternaar > tertsiaar > sekundaar). Juhtimispraktikad määravad <em>variatsiooni sektori sees</em>. Iga „edukate praktikate" järeldus on tegelikult osaliselt „kvaternaarsektori praktikad". EIS-i strateegiliste tegevuste mõte on suurim siis, kui need kaks asja eristatakse: sektori-mixi muutmine (rahvusvahelistumine, IKT, teadmismahukad teenused) vs juhtimispraktikate paranemine sektori sees.</li>
+<li><strong>1. Edukus on 2x rohkem sektori kui juhtimispraktika funktsioon (empiiriliselt testitud).</strong> Lisandväärtuse variatsioonist seletab sektor 4.1% (η²), juhtimismeetodite skoor 2.3% (R²). Kvaternaar (IT, finants) on 1.68x tõenäolisem olema kõrges tertsiilis. Kvaternaaris within-sector mgt-delta on −0.19 (kõrge VA firmad ei kasuta moodsaid meetodeid rohkem kui madala VA firmad). Cross-sector mgt-delta +0.61 vs within-sector +0.20. EIS-i strateegiliste tegevuste mõte on suurim siis, kui need kaks asja eristatakse: sektori-mixi muutmine (rahvusvahelistumine, IKT, teadmismahukad teenused, kapitali ligi pääs) vs juhtimispraktikate paranemine sektori sees. Mõlemad efektid on väikesed absoluutarvudes (&lt;10% variatsioonist kombineeritult), aga relatsioonis sektor on selgelt tugevam.</li>
 <li><strong>2. Eesti planeerimine on tugev rahaliselt, nõrk ekspordipoolelt.</strong> Strateegiline plaan 91%-l (stabiilne), aga ekspordiplaan vaid 38%-l — see on viimase 10 aasta vältel madalal tasemel jäänud.</li>
 <li><strong>3. Ülalt-alla planeerimiskultuur, kuid pikemas plaanis demokratiseeruv.</strong> 15 aastaga: omanike osakaal 4.47 → 4.08, esmatasandi töötajate 1.83 → 2.87. Suund on õige, tempo on aeglane.</li>
 <li><strong>4. Avalik sektor: retooriliselt moodne, praktiliselt traditsiooniline.</strong> EIS narratiivile vastuolus: konkreetsete moodsate juhtimismeetodite (AI, Agile, Lean, CRM) kasutus on madalam kui erasektoris. Avalikus sektoris on tugev VÄÄRTUSPÕHINE retoorika, aga nõrk OPERATSIOONIPÕHINE praktika.</li>
